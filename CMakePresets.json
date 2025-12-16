@@ -10,6 +10,25 @@
       "name": "release",
       "displayName": "Release",
       "generator": "Ninja",
+      "binaryDir": "H:/BUILDS/MelodyForgePro",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "release-vs",
+      "displayName": "Release (Visual Studio)",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "binaryDir": "H:/BUILDS/MelodyForgePro",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "ci",
+      "displayName": "CI Build",
+      "generator": "Ninja",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
@@ -21,12 +40,32 @@
       "name": "release",
       "configurePreset": "release",
       "configuration": "Release"
+    },
+    {
+      "name": "release-vs",
+      "configurePreset": "release-vs",
+      "configuration": "Release"
+    },
+    {
+      "name": "ci",
+      "configurePreset": "ci",
+      "configuration": "Release"
     }
   ],
   "testPresets": [
     {
       "name": "release",
       "configurePreset": "release",
+      "configuration": "Release"
+    },
+    {
+      "name": "release-vs",
+      "configurePreset": "release-vs",
+      "configuration": "Release"
+    },
+    {
+      "name": "ci",
+      "configurePreset": "ci",
       "configuration": "Release"
     }
   ]
