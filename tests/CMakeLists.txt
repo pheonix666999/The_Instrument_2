@@ -1,0 +1,12 @@
+add_executable(MelodyForgeProTests
+  TestMain.cpp
+)
+
+target_link_libraries(MelodyForgeProTests PRIVATE MelodyForgeProCore)
+
+add_test(NAME chord_gen_validation COMMAND MelodyForgeProTests chord_gen_validation)
+add_test(NAME midi_export_integrity COMMAND MelodyForgeProTests midi_export_integrity)
+add_test(NAME ui_fixed_size COMMAND MelodyForgeProTests ui_fixed_size)
+add_test(NAME preset_load_test COMMAND MelodyForgeProTests preset_load_test)
+add_test(NAME randomization_variance COMMAND MelodyForgeProTests randomization_variance)
+

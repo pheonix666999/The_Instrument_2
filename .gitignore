@@ -1,0 +1,47 @@
+# Build outputs
+build/
+build-win/
+build-win-llvm/
+cmake-build-*/
+dist/
+
+# Generated Resources (created at build time)
+Resources/
+
+# Windows reserved filenames
+nul
+NUL
+
+# External toolchains (not needed for CI - only JUCE submodule is required)
+External/Toolchains/
+
+# JUCE submodule build helpers
+External/JUCE/extras/Projucer/Builds/
+
+# Claude Code
+.claude/
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.db
+*.VC.opendb
+*.xcodeproj/
+*.xcworkspace/
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Generated assets stamp
+Resources/.assets_generated_stamp

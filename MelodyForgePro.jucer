@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="MFPR" name="MelodyForgePro" projectType="audioplug"
+              version="1.0.0" bundleIdentifier="com.xai.musictools.melodyforgepro"
+              companyName="xAI Music Tools" companyCopyright=""
+              reportAppUsage="0" splashScreen="0"
+              cppLanguageStandard="17"
+              pluginName="MelodyForgePro" pluginDesc="MelodyForge Pro"
+              pluginManufacturer="xAI Music Tools"
+              pluginManufacturerCode="xAIM" pluginCode="MFPr"
+              pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn,pluginProducesMidiOut"
+              pluginFormats="buildVST3,buildAU,buildStandalone"
+              pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="1"
+              pluginChannelConfigs="{0,2}" useAppConfig="0"
+              defines="JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_DISPLAY_SPLASH_SCREEN=0 JUCE_REPORT_APP_USAGE=0">
+
+  <MAINGROUP id="MAIN" name="MelodyForgePro">
+    <GROUP id="SRC" name="Source">
+      <FILE id="f1" name="PluginProcessor.h" file="Source/PluginProcessor.h" compile="0" resource="0"/>
+      <FILE id="f2" name="PluginProcessor.cpp" file="Source/PluginProcessor.cpp" compile="1" resource="0"/>
+      <FILE id="f3" name="PluginEditor.h" file="Source/PluginEditor.h" compile="0" resource="0"/>
+      <FILE id="f4" name="PluginEditor.cpp" file="Source/PluginEditor.cpp" compile="1" resource="0"/>
+      <FILE id="f5" name="MelodyGenerator.h" file="Source/MelodyGenerator.h" compile="0" resource="0"/>
+      <FILE id="f6" name="MelodyGenerator.cpp" file="Source/MelodyGenerator.cpp" compile="1" resource="0"/>
+      <FILE id="f7" name="AssetLibrary.h" file="Source/AssetLibrary.h" compile="0" resource="0"/>
+      <FILE id="f8" name="AssetLibrary.cpp" file="Source/AssetLibrary.cpp" compile="1" resource="0"/>
+      <FILE id="f9" name="SynthEngine.h" file="Source/SynthEngine.h" compile="0" resource="0"/>
+      <FILE id="f10" name="SynthEngine.cpp" file="Source/SynthEngine.cpp" compile="1" resource="0"/>
+      <FILE id="f11" name="FxChain.h" file="Source/FxChain.h" compile="0" resource="0"/>
+      <FILE id="f12" name="FxChain.cpp" file="Source/FxChain.cpp" compile="1" resource="0"/>
+      <FILE id="f13" name="PresetManager.h" file="Source/PresetManager.h" compile="0" resource="0"/>
+      <FILE id="f14" name="PresetManager.cpp" file="Source/PresetManager.cpp" compile="1" resource="0"/>
+      <FILE id="f15" name="PianoRollComponent.h" file="Source/PianoRollComponent.h" compile="0" resource="0"/>
+      <FILE id="f16" name="PianoRollComponent.cpp" file="Source/PianoRollComponent.cpp" compile="1" resource="0"/>
+      <FILE id="f17" name="SamplerSlotsComponent.h" file="Source/SamplerSlotsComponent.h" compile="0" resource="0"/>
+      <FILE id="f18" name="SamplerSlotsComponent.cpp" file="Source/SamplerSlotsComponent.cpp" compile="1" resource="0"/>
+      <FILE id="f19" name="ParticlesComponent.h" file="Source/ParticlesComponent.h" compile="0" resource="0"/>
+      <FILE id="f20" name="ParticlesComponent.cpp" file="Source/ParticlesComponent.cpp" compile="1" resource="0"/>
+      <FILE id="f21" name="MidiExporter.h" file="Source/MidiExporter.h" compile="0" resource="0"/>
+      <FILE id="f22" name="MidiExporter.cpp" file="Source/MidiExporter.cpp" compile="1" resource="0"/>
+      <FILE id="f23" name="LookAndFeel.h" file="Source/LookAndFeel.h" compile="0" resource="0"/>
+      <FILE id="f24" name="LookAndFeel.cpp" file="Source/LookAndFeel.cpp" compile="1" resource="0"/>
+    </GROUP>
+  </MAINGROUP>
+
+  <MODULES id="modules" path="External/JUCE/modules">
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" extraCompilerFlags="-Wall -Wextra"
+               iosScreenOrientation="portrait" macOSDeploymentTarget="11.0"/>
+    <VS2022 targetFolder="Builds/VisualStudio2022" extraCompilerFlags="/W4"
+            generateManifest="1"/>
+  </EXPORTFORMATS>
+
+</JUCERPROJECT>

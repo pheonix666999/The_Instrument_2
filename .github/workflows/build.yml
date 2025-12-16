@@ -1,0 +1,113 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            name: Windows
+          - os: macos-13
+            name: macOS
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Cache build
+        uses: actions/cache@v4
+        with:
+          path: build
+          key: ${{ runner.os }}-cmake-${{ hashFiles('CMakeLists.txt', 'Source/**', 'tests/**', 'scripts/**') }}
+
+      - name: Configure (Windows)
+        if: runner.os == 'Windows'
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        run: cmake --build build --config Release
+
+      - name: Test (Windows)
+        if: runner.os == 'Windows'
+        run: ctest --test-dir build -C Release --output-on-failure
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        run: pwsh -File scripts/package_windows.ps1 -BuildDir build -Config Release -OutDir dist/windows
+
+      - name: Install NSIS (Windows)
+        if: runner.os == 'Windows'
+        run: choco install nsis -y
+
+      - name: Build installer (Windows)
+        if: runner.os == 'Windows'
+        run: makensis /DINPUT_DIR="dist\\windows" /DOUTPUT_FILE="dist\\windows\\MelodyForgeProSetup.exe" MelodyForgePro.nsi
+
+      - name: Zip artifact (Windows)
+        if: runner.os == 'Windows'
+        run: powershell Compress-Archive -Path dist/windows/* -DestinationPath MelodyForgePro-Windows-Release.zip
+
+      - name: Upload artifact (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: MelodyForgePro-Windows-Release.zip
+          path: MelodyForgePro-Windows-Release.zip
+
+      - name: Configure (macOS)
+        if: runner.os == 'macOS'
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build (macOS)
+        if: runner.os == 'macOS'
+        run: cmake --build build -j 4
+
+      - name: Test (macOS)
+        if: runner.os == 'macOS'
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Placeholder signing identity (macOS)
+        if: runner.os == 'macOS'
+        run: echo "CODESIGN_IDENTITY=-" >> "$GITHUB_ENV"
+
+      - name: Import signing certificate (optional, macOS)
+        if: runner.os == 'macOS' && secrets.MACOS_CERT_P12_B64 != ''
+        shell: bash
+        run: |
+          echo "${{ secrets.MACOS_CERT_P12_B64 }}" | base64 --decode > cert.p12
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security import cert.p12 -k build.keychain -P "${{ secrets.MACOS_CERT_PASSWORD }}" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "" build.keychain
+          IDENTITY=$(security find-identity -v -p codesigning build.keychain | head -n 1 | sed -n 's/.*\"\\(.*\\)\"/\\1/p')
+          echo "CODESIGN_IDENTITY=$IDENTITY" >> "$GITHUB_ENV"
+
+      - name: Package + pkg (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          bash scripts/package_macos.sh build Release dist/macos
+
+      - name: Zip artifact (macOS)
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent dist/macos MelodyForgePro-macOS-Release.zip
+
+      - name: Upload artifact (macOS)
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: MelodyForgePro-macOS-Release.zip
+          path: MelodyForgePro-macOS-Release.zip
+
